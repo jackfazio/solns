@@ -10,28 +10,40 @@
  * };
  */
 
-#include<string>
-#include <cstdlib>
-
-using std::string;
 
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-      string s1 = "";
-      string s2 = "";
-      ListNode* l1c = l1;
-      ListNode* l2c = l2;
 
-      while(l1c->next != NULL){
-        s1 += l1->val;
-        l1c = l1c->next;
-      }
-      while(l2c->next != NULL){
-        s2 += l2->val;
-        l2c = l2c->next;
-      }
-      int sum = atoi(s1) + atoi(s2);
+      ListNode* curr = new ListNode();
+      ListNode* result = curr;
+
+      int firstListVal = 0;
+      int secondListVal = 0;
+      int sum = 0;
+      int carry = 0;
+      
+      while(carry || l1 != NULL || l2 != NULL){
+        if (l1 != NULL)
+        {
+          firstListVal = l1->val;
+          l1 = l1->next;
+        }
+        if (l2 != NULL)
+        {
+          secondListVal = l2->val;
+          l2 = l2->next;
+        }
         
+        sum = firstListVal + secondListVal + carry;
+
+        curr->next = new ListNode(sum % 10);
+        curr = curr->next;
+
+        carry = sum / 10;
+        secondListVal = firstListVal = 0;
+      }
+
+      return result->next;       
     }
 };
